@@ -10,7 +10,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 
-scaffold - dbcontext "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Chinook;Integrated Security=True;Trust Server Certificate=False;" Microsoft.EntityFrameworkCore.SqlServer - contextdir Data - outputdir Models / Generated - contextnamespace A2Chinook.Data -namespace A2Chinook.Models -force
 namespace IMDBFinalProject
 {
     /// <summary>
