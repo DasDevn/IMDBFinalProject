@@ -23,5 +23,25 @@ namespace IMDBFinalProject
 
 
         }
+
+        private void ExitMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void ArtistsMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            mainFrame.NavigationService.Navigate(new Pages.ArtistsPage());
+        }
+
+        private void MoviesMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            mainFrame.NavigationService.Navigate(new Pages.MoviesPage());
+        }
+
+        private void TVShowsMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            mainFrame.NavigationService.Navigate(new Pages.TVShowsPage());
+        }
     }
 }

@@ -9,6 +9,11 @@
       Title="ArtistsPage">
 
     <Grid>
-        
+        <TextBlock Text="Artists Page" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" 
+                   FontSize="24" 
+                   FontWeight="Bold" 
+                   Foreground="#F5C518" />
     </Grid>
 </Page>
