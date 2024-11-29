@@ -3,10 +3,55 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:IMDBFinalProject"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="600" Width="800"
+        Background="Black">
 
+    <Window.Resources>
+        <ResourceDictionary>
+            <BitmapImage x:Key="ArtistsImage" UriSource="/Images/artists.png"></BitmapImage>
+            <BitmapImage x:Key="MoviesImage" UriSource="/Images/movies.png"></BitmapImage>
+            <BitmapImage x:Key="TVShowsImage" UriSource="/Images/tvshows.png"></BitmapImage>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <!-- Define rows for layout -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <!-- Main content area -->
+            <RowDefinition Height="Auto" />
+            <!-- Bottom buttons area -->
+        </Grid.RowDefinitions>
+
+        <!-- Buttons in a StackPanel -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10">
+            <!-- Artist Button -->
+            <Button Width="100" Height="100" Margin="20" Background="#F5C518" Foreground="Black">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Image Source="{StaticResource ArtistsImage}" Width="75" />
+                    <TextBlock Text="Artists" HorizontalAlignment="Center" FontWeight="Bold" />
+                </StackPanel>
+            </Button>
+            <!-- Movie Button -->
+            <Button Width="100" Height="100" Margin="20" Background="#F5C518" Foreground="Black">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Image Source="{StaticResource MoviesImage}" Width="75" />
+                    <TextBlock Text="Movies" HorizontalAlignment="Center" FontWeight="Bold" />
+                </StackPanel>
+            </Button>
+            <!-- TV Show Button -->
+            <Button Width="100" Height="100" Margin="20" Background="#F5C518" Foreground="Black">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Image Source="{StaticResource TVShowsImage}" Width="75" />
+                    <TextBlock Text="TV Shows" HorizontalAlignment="Center" FontWeight="Bold" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
     </Grid>
 </Window>
+
+
+<!--<a href="https://www.flaticon.com/free-icons/actor" title="actor icons">Actor icons created by Octopocto - Flaticon</a>-->
+<!--<a href="https://www.flaticon.com/free-icons/antena" title="antena icons">Antena icons created by TgSoft - Flaticon</a></a>-->
+<!--<a href="https://www.flaticon.com/free-icons/film-reel" title="film reel icons">Film reel icons created by Freepik - Flaticon</a>-->
