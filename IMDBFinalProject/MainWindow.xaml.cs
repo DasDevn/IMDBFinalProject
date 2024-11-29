@@ -20,6 +20,8 @@ namespace IMDBFinalProject
         public MainWindow()
         {
             InitializeComponent();
+
+
         }
     }
 }

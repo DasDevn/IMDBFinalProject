@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Configuration;
 using IMDBFinalProject.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,9 +31,13 @@ public partial class ImdbContext : DbContext
     public virtual DbSet<TitleAlias> TitleAliases { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=IMDB;Integrated Security=True;Trust Server Certificate=False;");
-
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["IMDBDatabase"].ConnectionString;
+            optionsBuilder.UseSqlServer(connectionString);
+        }
+    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Episode>(entity =>
