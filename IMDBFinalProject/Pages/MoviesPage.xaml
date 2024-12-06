@@ -9,14 +9,37 @@
       Title="MoviesPage">
 
     <Page.Resources>
-        <CollectionViewSource x:Key="moviesViewSource" />
+        <CollectionViewSource x:Key="moviesViewSource"></CollectionViewSource>
     </Page.Resources>
-    <Grid>
-        <TextBlock Text="Movies Page" 
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Title Section -->
+        <TextBlock Text="Movies" 
+                   FontSize="28" 
+                   FontWeight="Bold" 
+                   Foreground="#F5C518" 
                    HorizontalAlignment="Center" 
                    VerticalAlignment="Center" 
-                   FontSize="24" 
-                   FontWeight="Bold" 
-                   Foreground="#F5C518" />
+                   Grid.Row="0" />
+
+        <!-- Movies List Section -->
+        <Border Grid.Row="1" BorderBrush="White" BorderThickness="2" CornerRadius="10" Margin="10">
+            <ListView x:Name="MoviesListView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10"
+                      ItemsSource="{Binding Source={StaticResource moviesViewSource}}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Original Title" DisplayMemberBinding="{Binding OriginalTitle}" Width="300" />
+                        <GridViewColumn Header="Release Year" DisplayMemberBinding="{Binding StartYear}" Width="100" />
+                        <GridViewColumn Header="Rating" DisplayMemberBinding="{Binding Rating.AverageRating}" Width="100" />
+                        <!--<GridViewColumn Header="Genres" DisplayMemberBinding="{Binding GenresDisplay}" Width="200" />-->
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
     </Grid>
 </Page>

@@ -1,4 +1,5 @@
 ﻿using IMDBFinalProject.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,15 +22,19 @@ namespace IMDBFinalProject.Pages
     /// </summary>
     public partial class MoviesPage : Page
     {
-        private readonly ImdbContext _context = new ImdbContext();
-        private CollectionViewSource moviesViewSource;
+        ImdbContext context = new ImdbContext();
+        CollectionViewSource moviesViewSource = new CollectionViewSource();
         public MoviesPage()
         {
             InitializeComponent();
 
             moviesViewSource = (CollectionViewSource)FindResource(nameof(moviesViewSource));
 
-            moviesViewSource.Source = _context.Titles.Local.ToObservableCollection();
+            context.Titles
+                   .Where(t => t.TitleType == "movie")
+                   .Load();
+
+            moviesViewSource.Source = context.Titles.Local.ToObservableCollection();
         }
     }
 }
