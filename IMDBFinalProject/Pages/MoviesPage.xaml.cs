@@ -24,22 +24,26 @@ namespace IMDBFinalProject.Pages
     {
         ImdbContext context = new ImdbContext();
         CollectionViewSource moviesViewSource = new CollectionViewSource();
+
         public MoviesPage()
         {
             InitializeComponent();
 
             moviesViewSource = (CollectionViewSource)FindResource(nameof(moviesViewSource));
 
-            // Fetch movies with their genres, titles, and release years
+            // Fetch movies with their genres, titles, release years, and ratings
             var moviesWithDetails = context.Titles
                 .Where(t => t.TitleType == "movie") // Filter only movies
                 .Select(t => new
                 {
-                    t.OriginalTitle,
-                    t.StartYear,     
-                    Genres = t.Genres.Any() 
-                    ? string.Join(", ", t.Genres.Select(g => g.Name)) 
-                    : "No Genre" 
+                    t.OriginalTitle, // Movie title
+                    t.StartYear,     // Release year
+                    Genres = t.Genres.Any()
+                        ? string.Join(", ", t.Genres.Select(g => g.Name)) // Genre
+                        : "No Genre", 
+                    Rating = t.Rating != null //Rating
+                        ? $"{t.Rating.AverageRating:0.0}/10"
+                        : "Not Rated" 
                 })
                 .ToList();
 
