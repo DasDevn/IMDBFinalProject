@@ -30,11 +30,20 @@ namespace IMDBFinalProject.Pages
 
             moviesViewSource = (CollectionViewSource)FindResource(nameof(moviesViewSource));
 
-            context.Titles
-                   .Where(t => t.TitleType == "movie")
-                   .Load();
+            // Fetch movies with their genres, titles, and release years
+            var moviesWithDetails = context.Titles
+                .Where(t => t.TitleType == "movie") // Filter only movies
+                .Select(t => new
+                {
+                    t.OriginalTitle,
+                    t.StartYear,     
+                    Genres = t.Genres.Any() 
+                    ? string.Join(", ", t.Genres.Select(g => g.Name)) 
+                    : "No Genre" 
+                })
+                .ToList();
 
-            moviesViewSource.Source = context.Titles.Local.ToObservableCollection();
+            moviesViewSource.Source = moviesWithDetails;
         }
     }
 }

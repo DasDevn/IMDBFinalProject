@@ -35,8 +35,7 @@
                     <GridView>
                         <GridViewColumn Header="Original Title" DisplayMemberBinding="{Binding OriginalTitle}" Width="300" />
                         <GridViewColumn Header="Release Year" DisplayMemberBinding="{Binding StartYear}" Width="100" />
-                        <GridViewColumn Header="Rating" DisplayMemberBinding="{Binding Rating.AverageRating}" Width="100" />
-                        <!--<GridViewColumn Header="Genres" DisplayMemberBinding="{Binding GenresDisplay}" Width="200" />-->
+                        <GridViewColumn Header="Genres" DisplayMemberBinding="{Binding Genres}" Width="300" />
                     </GridView>
                 </ListView.View>
             </ListView>
