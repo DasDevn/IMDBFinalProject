@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace IMDBFinalProject.Pages
-{
+{  
     /// <summary>
     /// Interaction logic for TVShowsPage.xaml
     /// </summary>

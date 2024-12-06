@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IMDBFinalProject.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,15 @@ namespace IMDBFinalProject.Pages
     /// </summary>
     public partial class MoviesPage : Page
     {
+        private readonly ImdbContext _context = new ImdbContext();
+        private CollectionViewSource moviesViewSource;
         public MoviesPage()
         {
             InitializeComponent();
+
+            moviesViewSource = (CollectionViewSource)FindResource(nameof(moviesViewSource));
+
+            moviesViewSource.Source = _context.Titles.Local.ToObservableCollection();
         }
     }
 }

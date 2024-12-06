@@ -8,6 +8,9 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="MoviesPage">
 
+    <Page.Resources>
+        <CollectionViewSource x:Key="moviesViewSource" />
+    </Page.Resources>
     <Grid>
         <TextBlock Text="Movies Page" 
                    HorizontalAlignment="Center" 
