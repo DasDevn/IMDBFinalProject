@@ -13,6 +13,7 @@
             <BitmapImage x:Key="MoviesImage" UriSource="/Images/movies.png"></BitmapImage>
             <BitmapImage x:Key="TVShowsImage" UriSource="/Images/tvshows.png"></BitmapImage>
             <BitmapImage x:Key="ExitImage" UriSource="/Images/exit.png"></BitmapImage>
+            <BitmapImage x:Key="ImdbLogoImage" UriSource="/Images/imdb_logo.png"></BitmapImage>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -67,7 +68,7 @@
                        Margin="10" />
 
             <!-- Main Frame for navigation -->
-            <Frame x:Name="mainFrame" Grid.Row="1" NavigationUIVisibility="Hidden" />
+            <Frame x:Name="mainFrame" Grid.Row="1" NavigationUIVisibility="Hidden" Source="Pages/LogoPage.xaml"/>
 
             <!-- Buttons in a StackPanel -->
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10">
