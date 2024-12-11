@@ -38,7 +38,7 @@
                 </StackPanel>-->
 
                 <!--List View-->
-                <ListView x:Name="MoviesListView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10"
+                <ListView x:Name="ArtistsListView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Background="White"
                       ItemsSource="{Binding Source={StaticResource artistsViewSource}}">
                     <ListView.View>
                         <GridView>

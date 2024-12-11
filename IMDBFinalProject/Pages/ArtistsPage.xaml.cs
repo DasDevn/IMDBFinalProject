@@ -31,42 +31,41 @@ namespace IMDBFinalProject.Pages
         {
             InitializeComponent();
 
-            artistsViewSource = (CollectionViewSource)FindResource(nameof(artistsViewSource));
+            using (var context = new ImdbContext())
+            {
+                var artists = context.Names
+                    .Select(a => new
+                    {
+                        a.NameId,
+                        a.PrimaryName,
+                        a.BirthYear,
+                        a.DeathYear,
+                    })
+                    //.OrderBy(a => a.PrimaryName) //order by name
+                    .ToList();
+                               
+                artistsViewSource.Source = artists;
+            }
 
-            //get from Names table
-            var artistsResult = context.Names
-                .Select(a => new
-                {
-                    a.NameId, //will be used to get artists works from Titles, via Known_For
-                    a.PrimaryName,
-                    a.BirthYear,
-                    DeathYear = (a.DeathYear != null) ? a.DeathYear.ToString() : "not dead yet"
-                })
-                .ToList(); //using Async as the OrderBy can take some time, and causes program to hang
+            //private void SearchArtists_Click(object sender, RoutedEventArgs e)
+            //{
+            //    using (var context = new ImdbContext())
+            //    {
+            //        var nameToSearch = SearchTextBox.Text.Trim();
 
-            //order after the fetch has happened, will hang app too long if done in-fetch
-            //artistsViewSource.Source = artistsResult.OrderBy(a => a.PrimaryName ?? string.Empty); //also checking string.empty, as primary name is a nullable field 
-            artistsViewSource.Source = artistsResult;
+            //        var filteredArtists = context.Names
+            //            .Where(a => a.PrimaryName.Contains(nameToSearch) && !a.PrimaryName.IsNullOrEmpty())
+            //            .Select(a => new
+            //            {
+            //                a.NameId, //will be used to get artists works from Titles, via Known_For
+            //                a.PrimaryName,
+            //                a.BirthYear,
+            //                a.DeathYear
+            //            }).ToList();
+
+            //        artistsViewSource.Source = filteredArtists;
+            //    }
+            //}
         }
-
-        //private void SearchArtists_Click(object sender, RoutedEventArgs e)
-        //{
-        //    using (var context = new ImdbContext())
-        //    {
-        //        var nameToSearch = SearchTextBox.Text.Trim();
-
-        //        var filteredArtists = context.Names
-        //            .Where(a => a.PrimaryName.Contains(nameToSearch) && !a.PrimaryName.IsNullOrEmpty())
-        //            .Select(a => new
-        //            {
-        //                a.NameId, //will be used to get artists works from Titles, via Known_For
-        //                a.PrimaryName,
-        //                a.BirthYear,
-        //                a.DeathYear
-        //            }).ToList();
-
-        //        artistsViewSource.Source = filteredArtists;
-        //    }
-        //}
     }
 }
