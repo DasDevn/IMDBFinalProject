@@ -38,7 +38,7 @@ namespace IMDBFinalProject.Pages
                 try
                 {
                     var artists = context.Names
-                        .Take(50) //TO-DO: REMOVE IN FINAL SUBMISSION, JUST FOR SPEED IN DEV
+                        .Take(50) //taking too large a number slows down the speed to read from db
                         .Where(n => n.PrimaryName != "") //ignore entries with no name
                         .Where(n =>
                         n.PrimaryProfession != null //where acting-related job category
@@ -55,26 +55,30 @@ namespace IMDBFinalProject.Pages
                             .Where(p => p.NameId == n.NameId) //where id matches in 
                             .Where(p => //where acting-related job category
                             p.JobCategory != null
-                        || p.JobCategory.ToLower() == "actor"
-                        || p.JobCategory.ToLower() == "actress")
+                            || p.JobCategory.ToLower() == "actor"
+                            || p.JobCategory.ToLower() == "actress")
                             .Select(p => p.NameId)
                             .Count(), //get the count of all valid jobs
+
                             ArtistsWork = context.Principals //ArtistsWork, holding characters + work character is from
                             .Where(p => p.NameId == n.NameId) //where id matches in 
                             .Where(p => //where acting-related job category
                             p.JobCategory != null
                         || p.JobCategory.ToLower() == "actor"
                         || p.JobCategory.ToLower() == "actress")
-                            .Select(p => new {
+                            .Select(p => new
+                            {
                                 Media = context.Titles //media character is from
                                 .Where(t => t.TitleId == p.TitleId && n.NameId == p.NameId) //where titleids match and nameids match
                                 .Where(t => t.PrimaryTitle != null)
                                 .Select(t =>
-                                new
-                                {
-                                    t.PrimaryTitle, //media title
-                                    p.Characters
-                                }
+                                    t.PrimaryTitle //media title
+                                ).ToList(),
+                                Character = context.Titles //media character is from
+                                .Where(t => t.TitleId == p.TitleId && n.NameId == p.NameId) //where titleids match and nameids match
+                                .Where(t => t.PrimaryTitle != null)
+                                .Select(t =>
+                                    p.Characters //related character
                                 ).ToList()
                             }).ToList()
 
