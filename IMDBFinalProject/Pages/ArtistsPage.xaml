@@ -23,7 +23,7 @@
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
 
-                <DockPanel Margin="20">
+                <DockPanel Margin="10">
                     <!--artist name as an expander-->
                     <Expander Header="{Binding PrimaryName}" Grid.Column="0" DockPanel.Dock="Left" Margin="7">
                         <Grid>
@@ -31,18 +31,15 @@
                             <ItemsControl ItemsSource="{Binding ArtistsWork}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Characters}" TextWrapping="Wrap" Margin="20"/>
+                                        <DockPanel>
+                                            <ListView ItemsSource="{Binding Media}"/>
+                                   
+                                        </DockPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                            <ItemsControl ItemsSource="{Binding Media}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding}"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-
+                            
+                            
                             <!--Total number of works acted in-->
 
                             <TextBlock Text="{Binding PrimaryName}" />

@@ -38,12 +38,12 @@ namespace IMDBFinalProject.Pages
                 try
                 {
                     var artists = context.Names
+                        .Take(50) //TO-DO: REMOVE IN FINAL SUBMISSION, JUST FOR SPEED IN DEV
                         .Where(n => n.PrimaryName != "") //ignore entries with no name
                         .Where(n =>
                         n.PrimaryProfession != null //where acting-related job category
                         || n.PrimaryProfession.ToLower() == "actor"
-                        || n.PrimaryProfession.ToLower() == "actress"
-                        || n.PrimaryProfession.ToLower() == "self")
+                        || n.PrimaryProfession.ToLower() == "actress")
                         .Select(n => new //select artist info
                         {
                             n.NameId, //will be used when getting related info when user selects given artist
@@ -56,20 +56,21 @@ namespace IMDBFinalProject.Pages
                             .Where(p => //where acting-related job category
                             p.JobCategory != null
                         || p.JobCategory.ToLower() == "actor"
-                        || p.JobCategory.ToLower() == "actress"
-                        || p.JobCategory.ToLower() == "self")
+                        || p.JobCategory.ToLower() == "actress")
                             .Select(p => new {
-                                p.Characters, //character played
                                 Media = context.Titles //media character is from
-                                .Where(t => t.TitleId == p.TitleId)
+                                .Where(t => t.TitleId == p.TitleId && n.NameId == p.NameId) //where titleids match and nameids match
                                 .Where(t => t.PrimaryTitle != null)
                                 .Select(t =>
-                                    t.PrimaryTitle //media title
+                                new
+                                {
+                                    t.PrimaryTitle, //media title
+                                    p.Characters
+                                }
                                 ).ToList()
                             }).ToList()
 
                         }).ToList()
-                        .Take(50) //TO-DO: REMOVE IN FINAL SUBMISSION, JUST FOR SPEED IN DEV
                         .OrderBy(a => a.PrimaryName) //order by name
                         .ToList();
 
@@ -95,8 +96,7 @@ namespace IMDBFinalProject.Pages
                         .Where(a => a.PrimaryName.Contains(nameToSearch))
                         .Where(a =>
                         a.PrimaryProfession.ToLower() == "actor"
-                        || a.PrimaryProfession.ToLower() == "actress"
-                        || a.PrimaryProfession.ToLower() == "self")
+                        || a.PrimaryProfession.ToLower() == "actress")
                         .Select(a => new
                         {
                             a.NameId, //will be used to get artists works from Titles, via Known_For
