@@ -66,7 +66,7 @@
                             </ItemsControl>
                         </Expander>
 
-                        <!-- Expander 2: Actors/Actresses -->
+                        <!-- Expander 2: Actors/Acctresses -->
                         <Expander Header="Actors/Actresses" Grid.Column="1">
                             <ItemsControl ItemsSource="{Binding Actors}">
                                 <ItemsControl.ItemTemplate>
@@ -95,33 +95,34 @@
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="120" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Vertical" Margin="0">
+        <StackPanel Orientation="Vertical" Margin="0,0,0,294" Grid.RowSpan="2">
             <!-- Title Section -->
-            <TextBlock Text="Movies" 
-                       FontSize="28" 
-                       FontWeight="Bold" 
-                       Foreground="#F5C518" 
-                       HorizontalAlignment="Center" 
-                       VerticalAlignment="Center" />
+            <TextBlock Text="TV Shows" 
+       FontSize="28" 
+       FontWeight="Bold" 
+       Foreground="#F5C518" 
+       HorizontalAlignment="Center" 
+       VerticalAlignment="Center" 
+       Grid.Row="0" />
 
             <!-- Search Bar Section -->
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Search Movies" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" />
+                    <TextBlock Text="Search TV Shows" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" />
                     <TextBox x:Name="SearchTextBox" Width="300" Height="30" VerticalContentAlignment="Center"/>
                     <Button x:Name="SearchButton" Content="Search" Width="80" Height="30" Margin="0,10,0,0"
-                            Click="SearchButton_Click" />
+            Click="SearchButton_Click" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>
 
         <!-- Movies List Section -->
-        <Border Grid.Row="1" BorderBrush="White" BorderThickness="2" CornerRadius="10" Margin="0,30,0,0">
-            <ListBox x:Name="MoviesListView"
+        <Border Grid.Row="1" BorderBrush="White" BorderThickness="2" CornerRadius="10" Margin="0">
+            <ListBox x:Name="MoviesListView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"
                      ItemsSource="{Binding Source={StaticResource moviesViewSource}}"
                      ItemTemplate="{StaticResource MovieTemplate}" />
         </Border>
