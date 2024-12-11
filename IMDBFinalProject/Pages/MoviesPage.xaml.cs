@@ -1,19 +1,9 @@
 ﻿using IMDBFinalProject.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace IMDBFinalProject.Pages
 {
@@ -31,34 +21,55 @@ namespace IMDBFinalProject.Pages
 
             moviesViewSource = (CollectionViewSource)FindResource(nameof(moviesViewSource));
 
-            // Fetch movies with their genres, titles, release years, and ratings
+            // Fetch all movies and their details
             var moviesWithDetails = context.Titles
-                .Where(t => t.TitleType == "movie") 
+                // Filter only titles where the type is "movie"
+                .Where(t => t.TitleType == "movie")
                 .Select(t => new
                 {
-                    t.TitleId,
-                    t.OriginalTitle, 
-                    t.StartYear,     
-                    Genres = t.Genres.Any()
-                        ? string.Join(", ", t.Genres.Select(g => g.Name)) 
-                        : "No Genre", 
-                    Rating = t.Rating != null 
-                        ? $"{t.Rating.AverageRating:0.0}/10"
-                        : "Not Rated",
-                    Actors = context.Principals
-                        .Where(p => p.TitleId == t.TitleId)
-                        .Select(p => p.Name.PrimaryName)
-                        .ToList(),
-                    Writers = t.Names1
-                        .Select(n => n.PrimaryName)
-                        .ToList(),
-                    Directors = t.Names.Select(n => n.PrimaryName).ToList()
-                })
-                .ToList();
+                // Fetch the original title of the movie
+                t.OriginalTitle,
 
+                // Fetch the starting year of the movie
+                t.StartYear,
 
+                // Fetch and format the genres:
+                // - If the movie has genres, join them into a comma-separated string
+                // - If no genres exist, default to "No Genre"
+                Genres = t.Genres.Any()
+                    ? string.Join(", ", t.Genres.Select(g => g.Name))
+                    : "No Genre",
 
+                // Fetch and format the rating:
+                // - If the movie has a rating, format it as "X.X/10"
+                // - If no rating exists, default to "Not Rated"
+                Rating = t.Rating != null
+                    ? $"{t.Rating.AverageRating:0.0}/10"
+                    : "Not Rated",
 
+                // Fetch the actors/actresses associated with the movie:
+                // - Filter principals by matching the TitleId
+                // - Select their names and convert to a list
+                Actors = context.Principals
+                    .Where(p => p.TitleId == t.TitleId)
+                    .Select(p => p.Name.PrimaryName)
+                    .ToList(),
+
+                // Fetch the writers associated with the movie:
+                // - Select their primary names and convert to a list
+                Writers = t.Names1
+                    .Select(n => n.PrimaryName)
+                    .ToList(),
+
+                // Fetch the directors associated with the movie:
+                // - Select their primary names and convert to a list
+                Directors = t.Names
+                    .Select(n => n.PrimaryName)
+                    .ToList()
+            })
+            .ToList();
+
+            // Assign the fetched and formatted movie data to the CollectionViewSource
             moviesViewSource.Source = moviesWithDetails;
         }
 
@@ -67,19 +78,11 @@ namespace IMDBFinalProject.Pages
             // Get the search text from the TextBox
             string searchText = SearchTextBox.Text.ToLower();
 
-            // Fetch movies with filtering based on the search text
-            var moviesQuery = context.Titles
-                .Where(t => t.TitleType == "movie");
-
-            if (!string.IsNullOrEmpty(searchText))
-            {
-                moviesQuery = moviesQuery.Where(t => t.OriginalTitle.ToLower().Contains(searchText));
-            }
-
-            var filteredMovies = moviesQuery
+            // Fetch movies filtered by the search text
+            var filteredMovies = context.Titles
+                .Where(t => t.TitleType == "movie" && t.OriginalTitle.ToLower().Contains(searchText))
                 .Select(t => new
                 {
-                    t.TitleId,
                     t.OriginalTitle,
                     t.StartYear,
                     Genres = t.Genres.Any()
