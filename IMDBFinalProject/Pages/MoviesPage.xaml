@@ -57,20 +57,34 @@
 
                         <!-- Expander 1: Directors -->
                         <Expander Header="Directors" Grid.Column="0">
-                            <TextBlock Text="{Binding Synopsis}" TextWrapping="Wrap" FontSize="14" />
+                            <ItemsControl ItemsSource="{Binding Directors}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="14" Margin="0,0,0,5" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </Expander>
 
                         <!-- Expander 2: Actors/Acctresses -->
-                        <Expander Header="Actors/Acctresses" Grid.Column="1">
-                            <ItemsControl ItemsSource="{Binding Cast}">
-                                <TextBlock Text="{Binding}" FontSize="14" />
+                        <Expander Header="Actors/Actresses" Grid.Column="1">
+                            <ItemsControl ItemsSource="{Binding Actors}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="14" Margin="0,0,0,5" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </Expander>
 
                         <!-- Expander 3: Writers -->
                         <Expander Header="Writers" Grid.Column="2">
-                            <ItemsControl ItemsSource="{Binding Reviews}">
-                                <TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="14" Margin="0,0,0,5" />
+                            <ItemsControl ItemsSource="{Binding Writers}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="14" Margin="0,0,0,5" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </Expander>
                     </Grid>

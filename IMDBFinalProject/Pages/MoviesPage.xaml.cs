@@ -36,6 +36,7 @@ namespace IMDBFinalProject.Pages
                 .Where(t => t.TitleType == "movie") // Filter only movies
                 .Select(t => new
                 {
+                    t.TitleId,
                     t.OriginalTitle, // Movie title
                     t.StartYear,     // Release year
                     Genres = t.Genres.Any()
@@ -43,9 +44,19 @@ namespace IMDBFinalProject.Pages
                         : "No Genre", 
                     Rating = t.Rating != null //Rating
                         ? $"{t.Rating.AverageRating:0.0}/10"
-                        : "Not Rated" 
+                        : "Not Rated",
+                    Actors = context.Principals
+                        .Where(p => p.TitleId == t.TitleId)
+                        .Select(p => p.Name.PrimaryName)
+                        .ToList(),
+                    Writers = t.Names1
+                        .Select(n => n.PrimaryName)
+                        .ToList()
                 })
                 .ToList();
+
+
+
 
             moviesViewSource.Source = moviesWithDetails;
         }
