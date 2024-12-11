@@ -51,6 +51,14 @@ namespace IMDBFinalProject.Pages
                             n.BirthYear, //artist year of birth
                             n.DeathYear, //artist year of death
 
+                            ArtistsWorkCount = context.Principals
+                            .Where(p => p.NameId == n.NameId) //where id matches in 
+                            .Where(p => //where acting-related job category
+                            p.JobCategory != null
+                        || p.JobCategory.ToLower() == "actor"
+                        || p.JobCategory.ToLower() == "actress")
+                            .Select(p => p.NameId)
+                            .Count(), //get the count of all valid jobs
                             ArtistsWork = context.Principals //ArtistsWork, holding characters + work character is from
                             .Where(p => p.NameId == n.NameId) //where id matches in 
                             .Where(p => //where acting-related job category

@@ -25,29 +25,25 @@
 
                 <DockPanel Margin="10">
                     <!--artist name as an expander-->
-                    <Expander Header="{Binding PrimaryName}" Grid.Column="0" DockPanel.Dock="Left" Margin="7">
-                        <Grid>
+                    <Expander Header="{Binding PrimaryName}" Grid.Column="0" Margin="7">
+                        <DockPanel>
                             <!--Artists Work History-->
                             <ItemsControl ItemsSource="{Binding ArtistsWork}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <DockPanel>
-                                            <ListView ItemsSource="{Binding Media}"/>
-                                   
-                                        </DockPanel>
+                                        <ListView ItemsSource="{Binding Media}"/>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                            
-                            
-                            <!--Total number of works acted in-->
 
-                            <TextBlock Text="{Binding PrimaryName}" />
-                        </Grid>
+                            <!--Number of works acted in-->
+                            <DockPanel Margin="10" Grid.Column="0" DockPanel.Dock="Top">
+                                <TextBlock Text="Number of works appeared in: "></TextBlock>
+                                <TextBlock Text="{Binding ArtistsWorkCount}" FontWeight="Bold"/>
+                            </DockPanel>
+                        </DockPanel>
                     </Expander>
-                
-                    
-                    
+
                     <!--artist years of birth and death-->
                     <StackPanel Orientation="Vertical" Grid.Column="1" DockPanel.Dock="Right" HorizontalAlignment="Right">
                         <StackPanel Orientation="Horizontal">
@@ -60,8 +56,6 @@
                         </StackPanel>
                     </StackPanel>
                 </DockPanel>
-
-
             </Grid>
         </DataTemplate>
     </Page.Resources>
