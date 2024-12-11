@@ -27,6 +27,8 @@
                    VerticalAlignment="Center" 
                    Grid.Row="0" />
 
+       
+
         <!-- Artists Section -->
         <Border Grid.Row="1" BorderBrush="White" BorderThickness="2" CornerRadius="10" Margin="10">
             <DockPanel>
