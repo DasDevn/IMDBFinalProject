@@ -8,12 +8,47 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ArtistsPage">
 
-    <Grid>
-        <TextBlock Text="Artists Page" 
+    <Page.Resources>
+        <CollectionViewSource x:Key="artistsViewSource"></CollectionViewSource>
+    </Page.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Title Section -->
+        <TextBlock Text="Artists" 
+                   FontSize="28" 
+                   FontWeight="Bold" 
+                   Foreground="#F5C518" 
                    HorizontalAlignment="Center" 
                    VerticalAlignment="Center" 
-                   FontSize="24" 
-                   FontWeight="Bold" 
-                   Foreground="#F5C518" />
+                   Grid.Row="0" />
+
+        <!-- Artists Section -->
+        <Border Grid.Row="1" BorderBrush="White" BorderThickness="2" CornerRadius="10" Margin="10">
+            <DockPanel>
+                <!--Search-->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DockPanel.Dock="Top">
+                    <TextBox x:Name="SearchTextBox" Width="300" Height="30" Margin="10" VerticalContentAlignment="Center"/>
+                    <Button x:Name="SearchButton" Content="Search Name" Width="80" Height="30" Margin="10"
+                        Click="SearchArtists_Click" />
+                </StackPanel>
+
+                <!--List View-->
+                <ListView x:Name="ArtistsListView" ScrollViewer.CanContentScroll="True" HorizontalAlignment="Stretch" 
+                          VerticalAlignment="Stretch" Margin="10" ItemsSource="{Binding Source={StaticResource artistsViewSource}}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Artist Name" DisplayMemberBinding="{Binding PrimaryName}" Width="300" />
+                            <GridViewColumn Header="Artist Birth Year" DisplayMemberBinding="{Binding BirthYear}" Width="100" />
+                            <GridViewColumn Header="Artist Death Year" DisplayMemberBinding="{Binding DeathYear}" Width="200" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </DockPanel>
+        </Border>
     </Grid>
 </Page>
