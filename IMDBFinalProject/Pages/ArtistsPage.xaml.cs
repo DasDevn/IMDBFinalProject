@@ -31,7 +31,6 @@ namespace IMDBFinalProject.Pages
         {
             InitializeComponent();
 
-
             artistsViewSource = (CollectionViewSource)FindResource(nameof(artistsViewSource));
 
             using (var context = new ImdbContext())
@@ -39,18 +38,38 @@ namespace IMDBFinalProject.Pages
                 try
                 {
                     var artists = context.Names
-                        .Where(a => a.PrimaryName != "") //ignore entries with no name
-                        .Where(a =>
-                        a.PrimaryProfession.ToLower() == "actor"
-                        || a.PrimaryProfession.ToLower() == "actress"
-                        || a.PrimaryProfession.ToLower() == "self")
-                        .Select(a => new
+                        .Where(n => n.PrimaryName != "") //ignore entries with no name
+                        .Where(n =>
+                        n.PrimaryProfession != null //where acting-related job category
+                        || n.PrimaryProfession.ToLower() == "actor"
+                        || n.PrimaryProfession.ToLower() == "actress"
+                        || n.PrimaryProfession.ToLower() == "self")
+                        .Select(n => new //select artist info
                         {
-                            a.NameId, //will be used when getting related info when user selects given artist
-                            a.PrimaryName, //artist name
-                            a.BirthYear, //artist year of birth
-                            a.DeathYear //artist year of death
-                        })
+                            n.NameId, //will be used when getting related info when user selects given artist
+                            n.PrimaryName, //artist name
+                            n.BirthYear, //artist year of birth
+                            n.DeathYear, //artist year of death
+
+                            ArtistsWork = context.Principals //ArtistsWork, holding characters + work character is from
+                            .Where(p => p.NameId == n.NameId) //where id matches in 
+                            .Where(p => //where acting-related job category
+                            p.JobCategory != null
+                        || p.JobCategory.ToLower() == "actor"
+                        || p.JobCategory.ToLower() == "actress"
+                        || p.JobCategory.ToLower() == "self")
+                            .Select(p => new {
+                                p.Characters, //character played
+                                Media = context.Titles //media character is from
+                                .Where(t => t.TitleId == p.TitleId)
+                                .Where(t => t.PrimaryTitle != null)
+                                .Select(t =>
+                                    t.PrimaryTitle //media title
+                                ).ToList()
+                            }).ToList()
+
+                        }).ToList()
+                        .Take(50) //TO-DO: REMOVE IN FINAL SUBMISSION, JUST FOR SPEED IN DEV
                         .OrderBy(a => a.PrimaryName) //order by name
                         .ToList();
 
@@ -62,7 +81,7 @@ namespace IMDBFinalProject.Pages
                 }
             }
 
-           
+
         }
         private void SearchArtists_Click(object sender, RoutedEventArgs e)
         {

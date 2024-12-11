@@ -10,6 +10,63 @@
 
     <Page.Resources>
         <CollectionViewSource x:Key="artistsViewSource"></CollectionViewSource>
+
+        <!--Data Template for each artist entry-->
+        <DataTemplate x:Key="ArtistTemplate">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <DockPanel Margin="20">
+                    <!--artist name as an expander-->
+                    <Expander Header="{Binding PrimaryName}" Grid.Column="0" DockPanel.Dock="Left" Margin="7">
+                        <Grid>
+                            <!--Artists Work History-->
+                            <ItemsControl ItemsSource="{Binding ArtistsWork}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Characters}" TextWrapping="Wrap" Margin="20"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <ItemsControl ItemsSource="{Binding Media}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <!--Total number of works acted in-->
+
+                            <TextBlock Text="{Binding PrimaryName}" />
+                        </Grid>
+                    </Expander>
+                
+                    
+                    
+                    <!--artist years of birth and death-->
+                    <StackPanel Orientation="Vertical" Grid.Column="1" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Year of Birth: " />
+                            <TextBlock Text="{Binding BirthYear}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Year of Death: " />
+                            <TextBlock Text="{Binding DeathYear}" />
+                        </StackPanel>
+                    </StackPanel>
+                </DockPanel>
+
+
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
 
     <Grid Margin="10">
@@ -27,8 +84,6 @@
                    VerticalAlignment="Center" 
                    Grid.Row="0" />
 
-       
-
         <!-- Artists Section -->
         <Border Grid.Row="1" BorderBrush="White" BorderThickness="2" CornerRadius="10" Margin="10">
             <DockPanel>
@@ -40,16 +95,9 @@
                 </StackPanel>
 
                 <!--List View-->
-                <ListView x:Name="ArtistsListView" ScrollViewer.CanContentScroll="True" HorizontalAlignment="Stretch" 
-                          VerticalAlignment="Stretch" Margin="10" ItemsSource="{Binding Source={StaticResource artistsViewSource}}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Artist Name" DisplayMemberBinding="{Binding PrimaryName}" Width="300" />
-                            <GridViewColumn Header="Artist Birth Year" DisplayMemberBinding="{Binding BirthYear}" Width="100" />
-                            <GridViewColumn Header="Artist Death Year" DisplayMemberBinding="{Binding DeathYear}" Width="200" />
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <ListBox x:Name="ArtistsListView" ScrollViewer.CanContentScroll="True" HorizontalAlignment="Stretch" 
+                         VerticalAlignment="Stretch" Margin="10" 
+                         ItemsSource="{Binding Source={StaticResource artistsViewSource}}" ItemTemplate="{StaticResource ArtistTemplate}" />
             </DockPanel>
         </Border>
     </Grid>
