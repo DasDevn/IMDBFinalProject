@@ -51,7 +51,8 @@ namespace IMDBFinalProject.Pages
                         .ToList(),
                     Writers = t.Names1
                         .Select(n => n.PrimaryName)
-                        .ToList()
+                        .ToList(),
+                    Directors = t.Names.Select(n => n.PrimaryName).ToList()
                 })
                 .ToList();
 
