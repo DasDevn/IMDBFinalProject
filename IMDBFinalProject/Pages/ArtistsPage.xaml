@@ -33,10 +33,10 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <!-- Displaying Media -->
-                                            <TextBlock Text="Media:" FontWeight="Bold"/>
+                                            <TextBlock Text="Media:" FontWeight="Bold" Padding="5"/>
                                             <ListView ItemsSource="{Binding Media}" />
                                             <!-- Displaying Characters -->
-                                            <TextBlock Text="Characters:" FontWeight="Bold"/>
+                                            <TextBlock Text="Characters:" FontWeight="Bold" Padding="5"/>
                                             <ListView ItemsSource="{Binding Character}" />
                                         </StackPanel>
                                     </DataTemplate>
