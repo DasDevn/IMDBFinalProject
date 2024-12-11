@@ -37,7 +37,10 @@ namespace IMDBFinalProject.Pages
             {
                 var artists = context.Names
                     .Where(a => a.PrimaryName != "") //ignore entries with no name
-                    .Where(a => a.BirthYear != null)
+                    .Where(a => 
+                    a.PrimaryProfession.ToLower() == "actor" 
+                    || a.PrimaryProfession.ToLower() == "actress" 
+                    || a.PrimaryProfession.ToLower() == "self")
                     .Select(a => new
                     {
                         a.NameId, //will be used when getting related info when user selects given artist
@@ -45,7 +48,7 @@ namespace IMDBFinalProject.Pages
                         a.BirthYear,
                         a.DeathYear
                     })
-                    .Take(10000) //TODO: limit to 10000 for dev, find a way to work with full list given reqs
+//                    .Take(10000) //TODO: limit to 10000 for dev, find a way to work with full list given reqs
                     .OrderBy(a => a.PrimaryName) //order by name
                     .ToList();
                                
@@ -62,6 +65,10 @@ namespace IMDBFinalProject.Pages
 
                 var filteredArtists = context.Names
                     .Where(a => a.PrimaryName.Contains(nameToSearch))
+                    .Where(a =>
+                    a.PrimaryProfession.ToLower() == "actor"
+                    || a.PrimaryProfession.ToLower() == "actress"
+                    || a.PrimaryProfession.ToLower() == "self")
                     .Select(a => new
                     {
                         a.NameId, //will be used to get artists works from Titles, via Known_For
