@@ -61,7 +61,7 @@ namespace IMDBFinalProject.Pages
                 var nameToSearch = SearchTextBox.Text.Trim();
 
                 var filteredArtists = context.Names
-                    .Where(a => a.PrimaryName.Contains(nameToSearch) && !a.PrimaryName.IsNullOrEmpty())
+                    .Where(a => a.PrimaryName.Contains(nameToSearch))
                     .Select(a => new
                     {
                         a.NameId, //will be used to get artists works from Titles, via Known_For
