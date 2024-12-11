@@ -33,16 +33,16 @@ namespace IMDBFinalProject.Pages
 
             // Fetch movies with their genres, titles, release years, and ratings
             var moviesWithDetails = context.Titles
-                .Where(t => t.TitleType == "movie") // Filter only movies
+                .Where(t => t.TitleType == "movie") 
                 .Select(t => new
                 {
                     t.TitleId,
-                    t.OriginalTitle, // Movie title
-                    t.StartYear,     // Release year
+                    t.OriginalTitle, 
+                    t.StartYear,     
                     Genres = t.Genres.Any()
-                        ? string.Join(", ", t.Genres.Select(g => g.Name)) // Genre
+                        ? string.Join(", ", t.Genres.Select(g => g.Name)) 
                         : "No Genre", 
-                    Rating = t.Rating != null //Rating
+                    Rating = t.Rating != null 
                         ? $"{t.Rating.AverageRating:0.0}/10"
                         : "Not Rated",
                     Actors = context.Principals
@@ -60,6 +60,47 @@ namespace IMDBFinalProject.Pages
 
 
             moviesViewSource.Source = moviesWithDetails;
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the search text from the TextBox
+            string searchText = SearchTextBox.Text.ToLower();
+
+            // Fetch movies with filtering based on the search text
+            var moviesQuery = context.Titles
+                .Where(t => t.TitleType == "movie");
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                moviesQuery = moviesQuery.Where(t => t.OriginalTitle.ToLower().Contains(searchText));
+            }
+
+            var filteredMovies = moviesQuery
+                .Select(t => new
+                {
+                    t.TitleId,
+                    t.OriginalTitle,
+                    t.StartYear,
+                    Genres = t.Genres.Any()
+                        ? string.Join(", ", t.Genres.Select(g => g.Name))
+                        : "No Genre",
+                    Rating = t.Rating != null
+                        ? $"{t.Rating.AverageRating:0.0}/10"
+                        : "Not Rated",
+                    Actors = context.Principals
+                        .Where(p => p.TitleId == t.TitleId)
+                        .Select(p => p.Name.PrimaryName)
+                        .ToList(),
+                    Writers = t.Names1
+                        .Select(n => n.PrimaryName)
+                        .ToList(),
+                    Directors = t.Names.Select(n => n.PrimaryName).ToList()
+                })
+                .ToList();
+
+            // Update the CollectionViewSource with the filtered data
+            moviesViewSource.Source = filteredMovies;
         }
     }
 }
