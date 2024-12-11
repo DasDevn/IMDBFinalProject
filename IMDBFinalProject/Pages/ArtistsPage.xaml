@@ -11,125 +11,92 @@
     <Page.Resources>
         <CollectionViewSource x:Key="artistsViewSource"></CollectionViewSource>
 
-        <!-- Data Template for each artist entry -->
+        <!--Data Template for each artist entry-->
         <DataTemplate x:Key="ArtistTemplate">
-            <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Padding="10" Margin="5" Width="715">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <!-- Row for artist information -->
-                        <RowDefinition Height="Auto" />
-                        <!-- Row for expander -->
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="2*" />
-                    </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
 
-                    <!-- Artist Name -->
-                    <StackPanel Orientation="Horizontal" Grid.Column="0">
-                        <TextBlock Text="Name: " FontWeight="Bold" FontSize="16"/>
-                        <TextBlock Text="{Binding PrimaryName}" FontSize="16"/>
-                    </StackPanel>
-
-                    <!-- Birth Year -->
-                    <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
-                        <TextBlock Text="Birth: " FontWeight="Bold" FontSize="16" />
-                        <TextBlock Text="{Binding BirthYear}" FontSize="16" />
-                    </StackPanel>
-
-                    <!-- Death -->
-                    <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="0,20,0,0">
-                        <TextBlock Text="Works: " FontWeight="Bold" FontSize="16" />
-                        <TextBlock Text="{Binding ArtistsWorkCount}" FontSize="16" />
-                    </StackPanel>
-                    <!-- Birth and Death Years -->
-                    <!-- Rating -->
-                    <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" Margin="0,20,0,0">
-                        <TextBlock Text="Death: " FontWeight="Bold" FontSize="16" />
-                        <TextBlock Text="{Binding DeathYear}"  FontSize="16"/>
-                    </StackPanel>
-
-
-                    <!-- Expander Section -->
-                    <Expander Header="Works" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                        <ItemsControl ItemsSource="{Binding ArtistsWork}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Margin="5,0">
-                                        <Grid.ColumnDefinitions>
-                                            <!-- Column for Media -->
-                                            <ColumnDefinition Width="1*" />
-                                            <!-- Column for Characters -->
-                                            <ColumnDefinition Width="1*" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <!-- Media Column -->
-                                        <StackPanel Grid.Column="0" Margin="1">
-                                            <TextBlock Text="Media: " FontWeight="Bold" Margin="5,0"/>
-                                            <ItemsControl ItemsSource="{Binding Media}">
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding}" Margin="5,0"/>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
+                <DockPanel Margin="10">
+                    <!--artist name as an expander-->
+                    <Expander Header="{Binding PrimaryName}" Grid.Column="0" Margin="7">
+                        <DockPanel>
+                            <!--Artists Work History-->
+                            <ItemsControl ItemsSource="{Binding ArtistsWork}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <!-- Displaying Media -->
+                                            <TextBlock Text="Media:" FontWeight="Bold" Padding="5"/>
+                                            <ListView ItemsSource="{Binding Media}" />
+                                            <!-- Displaying Characters -->
+                                            <TextBlock Text="Characters:" FontWeight="Bold" Padding="5"/>
+                                            <ListView ItemsSource="{Binding Character}" />
                                         </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
 
-                                        <!-- Characters Column -->
-                                        <StackPanel Grid.Column="1" Margin="1" HorizontalAlignment="Right">
-                                            <TextBlock Text="Characters: " FontWeight="Bold" Margin="5,0"/>
-                                            <ItemsControl ItemsSource="{Binding Character}">
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding}" Margin="5,0"/>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                        </StackPanel>
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                            <!--Number of works acted in-->
+                            <DockPanel Margin="10" Grid.Column="0" DockPanel.Dock="Top">
+                                <TextBlock Text="Number of works appeared in: "></TextBlock>
+                                <TextBlock Text="{Binding ArtistsWorkCount}" FontWeight="Bold"/>
+                            </DockPanel>
+                        </DockPanel>
                     </Expander>
-                </Grid>
-            </Border>
+
+                    <!--artist years of birth and death-->
+                    <StackPanel Orientation="Vertical" Grid.Column="1" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Year of Birth: " />
+                            <TextBlock Text="{Binding BirthYear}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Year of Death: " />
+                            <TextBlock Text="{Binding DeathYear}" />
+                        </StackPanel>
+                    </StackPanel>
+                </DockPanel>
+            </Grid>
         </DataTemplate>
-
-
     </Page.Resources>
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="120" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Vertical" Margin="0">
-            <!-- Title Section -->
-            <TextBlock Text="Artists" 
-                       FontSize="28" 
-                       FontWeight="Bold" 
-                       Foreground="#F5C518" 
-                       HorizontalAlignment="Center" 
-                       VerticalAlignment="Center" />
+        <!-- Title Section -->
+        <TextBlock Text="Artists" 
+                   FontSize="28" 
+                   FontWeight="Bold" 
+                   Foreground="#F5C518" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" 
+                   Grid.Row="0" />
 
-            <!-- Search Bar Section -->
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Search Artists" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" />
-                    <TextBox x:Name="SearchTextBox" Width="300" Height="30" VerticalContentAlignment="Center"/>
-                    <Button x:Name="SearchButton" Content="Search" Width="80" Height="30" Margin="0,10,0,0"
-                            Click="SearchArtists_Click" />
+        <!-- Artists Section -->
+        <Border Grid.Row="1" BorderBrush="White" BorderThickness="2" CornerRadius="10" Margin="10">
+            <DockPanel Background="#F5C518">
+                <!--Search-->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DockPanel.Dock="Top">
+                    <TextBox x:Name="SearchTextBox" Width="300" Height="30" Margin="10" VerticalContentAlignment="Center"/>
+                    <Button x:Name="SearchButton" Content="Search Name" Width="80" Height="30" Margin="10"
+                        Click="SearchArtists_Click" />
                 </StackPanel>
-            </StackPanel>
-        </StackPanel>
 
-        <!-- Artists List Section -->
-        <Border Grid.Row="1" BorderBrush="White" BorderThickness="2" CornerRadius="10" Margin="0,30,0,0">
-            <ListBox x:Name="ArtistsListView"
-                     ItemsSource="{Binding Source={StaticResource artistsViewSource}}"
-                     ItemTemplate="{StaticResource ArtistTemplate}" />
+                <!--List Box-->
+                <ListBox x:Name="ArtistsListView" ScrollViewer.CanContentScroll="True" HorizontalAlignment="Stretch" 
+                         VerticalAlignment="Stretch" Margin="10"
+                         ItemsSource="{Binding Source={StaticResource artistsViewSource}}" ItemTemplate="{StaticResource ArtistTemplate}" />
+            </DockPanel>
         </Border>
     </Grid>
 </Page>
